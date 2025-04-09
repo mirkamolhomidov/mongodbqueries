@@ -1,0 +1,97 @@
+use("mongodb_queries")
+
+// 1. Comparison Query Mashqlari
+
+// 1
+db.oquvchilar.find({ yosh: { $gt: 15 } })
+
+// 2
+db.oquvchilar.find({ "manzil.uy": { $lt: 50 } })
+
+// 3
+db.oquvchilar.find({ stipendiya: { $gte: 200000 } })
+
+// 4
+db.fanlar.find({ $and: [{ xona: { $gt: 200 } }, { xona: { $lt: 300 } }] })
+
+// 5
+db.fanlar.find({ test_natija: { $elemMatch: { $gt: 90 } } })
+
+// 6
+db.oquvchilar.find({ "baholar.matematika": { $elemMatch: { $lt: 4 } } })
+
+// 7
+db.oquvchilar.find({ tugilgan_sana: { $gt: ISODate("2008-12-31") } })
+
+// 8
+db.fanlar.find({ dars_soati: { $ne: 4 } })
+
+// 9
+db.fanlar.find({ $and: [{ nomi: "Matematika" }, { $or: [{ test_natija: { $lt: 80 } }, { test_natija: { $gt: 90 } }] }] })
+
+// 10
+db.fanlar.find({ "talablar.minimum_ball": { $lt: 60 } })
+
+// 2. Logical Query Mashqlari
+
+// 1
+db.oquvchilar.find({ $and: [{ yosh: { $gt: 15 } }, { stipendiya: { $gt: 200000 } }] })
+
+// 2
+db.oquvchilar.find({ $or: [{ fanlar: "Matematika" }, { fanlar: "Fizika" }] })
+
+// 3
+db.oquvchilar.find({ $and: [{ fanlar: "Matematika" }, { yosh: { $lte: 16 } }] })
+
+// 4
+db.oquvchilar.find({ $or: [{ "manzil.tuman": "Yunusobod" }, { fanlar: "Ingliz tili" }] })
+
+// 5
+db.fanlar.find({ $and: [{ oqituvchi: /^Smith/ }, { dars_soati: { $gt: 4 } }] })
+
+// 6
+db.oquvchilar.find({ $and: [{ "baholar.matematika": { $gt: 4 } }, { "baholar.informatika": { $eq: 5 } }] })
+
+// 7
+db.oquvchilar.find({ "manzil.tuman": { $ne: "Chilonzor" } })
+
+// 8
+db.fanlar.find({ $and: [{ kunlar: "Seshanba" }, { kunlar: "Payshanba" }] })
+
+// 9
+db.oquvchilar.find({ $or: [{ stipendiya: { $eq: null } }, { stipendiya: { $lt: 150000 } }] })
+
+// 10
+db.oquvchilar.find({ $and: [{ fanlar: "Informatika" }, { fanlar: "Ingliz tili" }] })
+
+// 3. Element Query Mashqlari
+
+// 1
+db.oquvchilar.find({ stipendiya: { $ne: null } })
+
+// 2
+db.oquvchilar.find({ qoshimcha_fanlar: true })
+
+// 3
+db.fanlar.find({ "talablar.qoshimcha_adabiyot": true })
+
+// 4
+db.oquvchilar.find({ stipendiya: null })
+
+// 5
+db.oquvchilar.find({ $expr: { $gte: [{ $size: "$baholar.matematika" }, 5] } })
+
+// 6
+db.oquvchilar.find({ "manzil.kocha": { $exists: true } })
+
+// 7
+db.fanlar.find({ dars_soati: { $exists: true } })
+
+// 8
+db.fanlar.find({ $expr: { $gte: [{ $size: "$talablar.kitoblar" }, 2] } })
+
+// 9
+db.oquvchilar.find({ "baholar.matematika": { $exists: false } })
+
+// 10
+db.fanlar.find({ "test_natija": { $exists: true }, $expr: { $gte: [{ $size: "$test_natija" }, 3] } })
